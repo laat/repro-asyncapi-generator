@@ -8,7 +8,7 @@
 
 ```
 npm ci # installs @asyncapi/html-template
-node ./generate.js # installs again.
+./node_modules/.bin/ag src/simple.yaml @asyncapi/html-template --force-write
 ```
 
 ## Fix
@@ -17,5 +17,5 @@ node ./generate.js # installs again.
 ```
 npm ci # installs @asyncapi/html-template
 npx patch-package
-node ./generate.js # installs again.
+./node_modules/.bin/ag src/simple.yaml @asyncapi/html-template --force-write
 ```
