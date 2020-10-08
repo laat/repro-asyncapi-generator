@@ -1,0 +1,39 @@
+diff --git a/node_modules/@asyncapi/generator/lib/generator.js b/node_modules/@asyncapi/generator/lib/generator.js
+index 841af20..dc62139 100644
+--- a/node_modules/@asyncapi/generator/lib/generator.js
++++ b/node_modules/@asyncapi/generator/lib/generator.js
+@@ -320,31 +320,12 @@ class Generator {
+     return new Promise(async (resolve, reject) => {
+       if (!force) {
+         try {
+-          let installedPkg;
+-
+-          if (isFileSystemPath(this.templateName)) {
+-            const pkg = require(path.resolve(this.templateName, PACKAGE_JSON_FILENAME));
+-            installedPkg = require(path.resolve(DEFAULT_TEMPLATES_DIR, pkg.name, PACKAGE_JSON_FILENAME));
+-          } else { // Template is not a filesystem path...
+-            const templatePath = path.resolve(DEFAULT_TEMPLATES_DIR, this.templateName);
+-            if (await isLocalTemplate(templatePath)) {
+-              // This "if" is covering the following workflow:
+-              // ag asyncapi.yaml ../html-template
+-              // The previous command installs a template called @asyncapi/html-template
+-              // And now we run the command again but with the resolved name:
+-              // ag asyncapi.yaml @asyncapi/html-template
+-              // The template name doesn't look like a file system path but we find
+-              // that the package is already installed and it's a symbolic link.
+-              const { resolvedLink } = await getLocalTemplateDetails(templatePath);
+-              log.debug(`This template has already been installed and it's pointing to your filesystem at ${resolvedLink}.`);
+-            }
+-            installedPkg = require(path.resolve(templatePath, PACKAGE_JSON_FILENAME));
+-          }
+-
++          const pkgJsonPath = require.resolve(path.join(this.templateName, PACKAGE_JSON_FILENAME))
++          const installedPkg = require(pkgJsonPath)
+           return resolve({
+             name: installedPkg.name,
+             version: installedPkg.version,
+-            path: path.resolve(DEFAULT_TEMPLATES_DIR, installedPkg.name),
++            path: path.dirname(pkgJsonPath),
+           });
+         } catch (e) {
+           // We did our best. Proceed with installation...
