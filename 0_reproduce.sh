@@ -6,4 +6,4 @@ set -o nounset
 set -o xtrace
 
 npm ci
-node ./generate.js
+./node_modules/.bin/ag src/simple.yaml @asyncapi/html-template --force-write

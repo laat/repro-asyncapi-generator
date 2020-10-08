@@ -7,4 +7,4 @@ set -o xtrace
 
 npm ci
 npx patch-package
-node ./generate.js
+./node_modules/.bin/ag src/simple.yaml @asyncapi/html-template --force-write
