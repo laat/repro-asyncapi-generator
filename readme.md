@@ -1,8 +1,8 @@
 # @asyncapi/html-template gets installed twice.
 
 ## Reproduce
-- first in package.json
-- then during generation
+- installed through package.json
+- installed again during generation
 
 `0_reproduce.sh`:
 
